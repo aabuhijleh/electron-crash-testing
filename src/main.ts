@@ -1,6 +1,18 @@
 // Modules to control application life and create native browser window
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, crashReporter, ipcMain } from "electron";
 import path from "path";
+import { CONFIG } from "./config";
+
+crashReporter.start({
+  companyName: "YourCompany",
+  productName: "YourApp",
+  ignoreSystemCrashHandler: true,
+  submitURL: CONFIG.submitURL
+});
+
+ipcMain.on("crash", () => {
+  process.crash();
+});
 
 function createWindow() {
   // Create the browser window.
